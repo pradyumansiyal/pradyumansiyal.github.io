@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="chatbot.css">
     <script src="script.js"></script>
 </head>
 <body>
@@ -149,9 +150,28 @@
         </div>
     </section>
 
+    <!-- Chatbot Button -->
+<div id="chatbot-toggle">💬</div>
+
+<!-- Chatbot Window -->
+<div id="chatbot">
+  <div id="chatbot-header">
+    <span>Ask about me</span>
+    <button id="close-chat">×</button>
+  </div>
+
+  <div id="chatbot-messages"></div>
+
+  <div id="chatbot-input">
+    <input type="text" id="user-input" placeholder="Ask a question..." />
+    <button id="send-btn">Send</button>
+  </div>
+</div>
+
     <!-- Footer -->
     <footer>
         <p>© 2026 Pradyuman Siyal. Built with HTML, CSS & JavaScript.</p>
     </footer>
+    
 </body>
 </html>
