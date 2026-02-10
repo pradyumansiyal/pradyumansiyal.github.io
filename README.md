@@ -67,6 +67,7 @@ It also includes an **interactive AI chatbot** that answers common questions abo
 ---
 
 📁 Project Structure
+```text
 ├── index.html        # Main website structure
 ├── style.css         # Styling and layout
 ├── script.js         # Interactivity and chatbot logic
@@ -80,6 +81,8 @@ It also includes an **interactive AI chatbot** that answers common questions abo
     ├── contactinfo.png
     ├── skills.png
     └── chatbot.png
+```
+
 
 
 ## Screenshots
