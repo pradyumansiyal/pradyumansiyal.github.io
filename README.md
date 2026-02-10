@@ -3,7 +3,7 @@
 A modern, responsive personal portfolio website built to showcase my frontend skills, projects, and professional profile.  
 Designed with performance, clean UI, and recruiter experience in mind.
 
-🌐 **Live Website:** https://pradyumansiyal.github.io  
+🌐 **Live Website:** https://pradyumansiyal.us.cc
 📄 **Resume:** Available on request  
 💼 **Role:** Frontend Developer  
 
@@ -67,4 +67,19 @@ It also includes an **interactive AI chatbot** that answers common questions abo
 ---
 
 ## 📂 Project Structure
+├── index.html # Main website structure
+├── style.css # Styling and layout
+├── script.js # Interactivity and chatbot logic
+├── logo.png # Personal logo
+├── resume.pdf # Resume (optional download)
+├── CNAME # Custom domain configuration
+└── README.md # Project documentation
 
+## Screenshots
+
+****
+
+⭐ Acknowledgement
+
+Built from scratch to reflect my frontend philosophy:
+clean code, smooth UX, and practical design decisions.
