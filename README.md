@@ -4,7 +4,7 @@ A modern, responsive personal portfolio website built to showcase my frontend sk
 Designed with performance, clean UI, and recruiter experience in mind.
 
 🌐 **Live Website:** http://pradyumansiyal.us.cc
-📄 **Resume:** ![Resume](https://drive.google.com/file/d/1f66b20i-Bq2-fO-TS1BWPqcfd3u97Tqq/view?usp=drive_link  )
+📄 **Resume:** [View Resume](https://drive.google.com/file/d/1f66b20i-Bq2-fO-TS1BWPqcfd3u97Tqq/view?usp=drive_link  )
 💼 **Role:** Frontend Developer  
 
 ---
