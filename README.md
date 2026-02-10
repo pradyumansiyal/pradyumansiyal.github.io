@@ -62,7 +62,8 @@ It also includes an **interactive AI chatbot** that answers common questions abo
 **Tools & Platform**
 - Git & GitHub
 - GitHub Pages (hosting)
-- Cloudflare (domain & DNS)
+- Cloudflare (DNS)
+- HostKro (domain)
 
 ---
 
