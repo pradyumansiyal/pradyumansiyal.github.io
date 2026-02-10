@@ -77,7 +77,21 @@ It also includes an **interactive AI chatbot** that answers common questions abo
 
 ## Screenshots
 
-****
+### Homepage
+![Homepage](./Screenshots/homepage.png)
+
+### Projects Section
+![Projects Section](./Screenshots/projects.png)
+
+### AI Chatbot
+![Chatbot Interface](./Screenshots/chatbot.png)
+
+### Skills Section
+![Skills Section](./Screenshots/skills.png)
+
+### Contact Me Section
+![Contact Me Interface](./Screenshots/contactinfo.png)
+
 
 ⭐ Acknowledgement
 
