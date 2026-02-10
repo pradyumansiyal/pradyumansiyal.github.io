@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pradyuman Siyal — Frontend Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,600;9..144,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET & BASE ─────────────────────────────────────── */
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    :root {
+      --bg:       #0f0f0f;
+      --surface:  #161616;
+      --border:   #2a2a2a;
+      --text:     #e8e4dc;
+      --muted:    #888;
+      --accent:   #c8f04c;   /* lime green */
+      --accent2:  #f04c6a;   /* coral */
+      --font-display: 'Fraunces', serif;
+      --font-body:    'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ─── NOISE OVERLAY ────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9998;
+      opacity: .6;
+    }
+
+    /* ─── NAV ──────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 900;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.4rem 6%;
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s, background .3s;
+    }
+    nav.scrolled {
+      background: rgba(15,15,15,.92);
+      backdrop-filter: blur(14px);
+      border-color: var(--border);
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 600;
+      letter-spacing: -.01em;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      transition: color .25s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      padding: .55rem 1.4rem;
+      border: 1.5px solid var(--accent);
+      color: var(--accent) !important;
+      border-radius: 2rem;
+      transition: background .25s, color .25s !important;
+    }
+    .nav-cta:hover { background: var(--accent); color: var(--bg) !important; }
+
+    /* ─── HERO ─────────────────────────────────────────────── */
+    #home {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 9rem 6% 6rem;
+      gap: 4rem;
+      position: relative;
+    }
+
+    /* big background text */
+    #home::after {
+      content: 'DEV';
+      position: absolute;
+      right: -2rem;
+      bottom: 5%;
+      font-family: var(--font-display);
+      font-size: clamp(8rem, 20vw, 18rem);
+      font-weight: 700;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--border);
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+    }
+
+    .hero-label {
+      display: inline-flex; align-items: center; gap: .6rem;
+      font-size: .8rem; font-weight: 500; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+    .hero-label::before {
+      content: '';
+      display: block; width: 2rem; height: 1.5px;
+      background: var(--accent);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -.03em;
+      margin-bottom: 1.8rem;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-bio {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 480px;
+      margin-bottom: 3rem;
+      line-height: 1.9;
+    }
+
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn-filled {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .85rem 2rem;
+      background: var(--accent);
+      color: var(--bg);
+      font-weight: 600; font-size: .95rem;
+      border-radius: .4rem;
+      transition: opacity .25s, transform .25s;
+    }
+    .btn-filled:hover { opacity: .85; transform: translateY(-2px); }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .85rem 2rem;
+      border: 1.5px solid var(--border);
+      color: var(--text);
+      font-weight: 500; font-size: .95rem;
+      border-radius: .4rem;
+      transition: border-color .25s, transform .25s;
+    }
+    .btn-ghost:hover { border-color: var(--text); transform: translateY(-2px); }
+
+    /* hero right — stat card */
+    .hero-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 1.2rem;
+      padding: 2.4rem;
+      position: relative;
+    }
+    .hero-card::before {
+      content: '';
+      position: absolute; top: -1px; left: 2rem; right: 2rem; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+
+    .card-greeting {
+      font-size: .85rem; color: var(--muted);
+      margin-bottom: 1.5rem; letter-spacing: .05em;
+    }
+    .card-greeting span { color: var(--accent); }
+
+    .card-stats {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1.5rem; margin-bottom: 2rem;
+    }
+    .stat { padding: 1.2rem; background: var(--bg); border-radius: .8rem; }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 2.4rem; font-weight: 700;
+      color: var(--accent); line-height: 1;
+      margin-bottom: .3rem;
+    }
+    .stat-label { font-size: .8rem; color: var(--muted); }
+
+    .card-stack { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .stack-pill {
+      padding: .35rem .85rem;
+      border: 1px solid var(--border);
+      border-radius: 2rem;
+      font-size: .8rem; color: var(--muted);
+      transition: border-color .2s, color .2s;
+    }
+    .stack-pill:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ─── SECTION BASE ─────────────────────────────────────── */
+    section { padding: 7rem 6%; }
+
+    .sec-label {
+      font-size: .78rem; font-weight: 500;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: .8rem;
+      display: flex; align-items: center; gap: .6rem;
+    }
+    .sec-label::after {
+      content: ''; flex: 1; height: 1px;
+      background: var(--border); max-width: 4rem;
+    }
+
+    .sec-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700; letter-spacing: -.02em;
+      line-height: 1.15; margin-bottom: 1rem;
+    }
+    .sec-sub { color: var(--muted); max-width: 560px; margin-bottom: 3.5rem; font-size: 1.05rem; }
+
+    /* ─── PROJECTS ─────────────────────────────────────────── */
+    #projects { background: var(--surface); }
+
+    .proj-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .proj-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 2.2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color .3s, transform .3s;
+      cursor: default;
+    }
+    .proj-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+    }
+    .proj-card::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at top left, rgba(200,240,76,.06), transparent 60%);
+      opacity: 0; transition: opacity .3s;
+    }
+    .proj-card:hover::after { opacity: 1; }
+
+    .proj-num {
+      font-family: var(--font-display);
+      font-size: 4rem; font-weight: 700;
+      color: var(--border); line-height: 1;
+      margin-bottom: 1.2rem;
+      transition: color .3s;
+    }
+    .proj-card:hover .proj-num { color: var(--accent); }
+
+    .proj-name {
+      font-family: var(--font-display);
+      font-size: 1.7rem; font-weight: 600;
+      letter-spacing: -.01em;
+      margin-bottom: .8rem;
+    }
+    .proj-desc { color: var(--muted); font-size: .95rem; line-height: 1.8; margin-bottom: 1.4rem; }
+
+    .proj-tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.4rem; }
+    .proj-tag {
+      padding: .3rem .8rem;
+      background: rgba(200,240,76,.1);
+      color: var(--accent);
+      border-radius: 2rem; font-size: .8rem; font-weight: 500;
+    }
+
+    .proj-metrics { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .metric {
+      display: flex; align-items: center; gap: .4rem;
+      font-size: .82rem; color: var(--muted);
+    }
+    .metric::before { content: '↑'; color: var(--accent); font-weight: 700; }
+
+    .proj-link {
+      display: inline-flex; align-items: center; gap: .4rem;
+      margin-top: 1.4rem;
+      font-size: .9rem; font-weight: 600;
+      color: var(--accent);
+      transition: gap .2s;
+    }
+    .proj-link:hover { gap: .7rem; }
+
+    /* ─── SKILLS ───────────────────────────────────────────── */
+    #skills { position: relative; }
+
+    .skills-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .skill-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 2rem;
+      transition: border-color .3s;
+    }
+    .skill-card:hover { border-color: var(--accent); }
+
+    .skill-card-title {
+      font-size: .8rem; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 1.2rem;
+    }
+
+    .skill-pills { display: flex; flex-wrap: wrap; gap: .6rem; }
+    .pill {
+      padding: .45rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 2rem;
+      font-size: .875rem;
+      transition: all .2s;
+    }
+    .pill:hover {
+      background: rgba(200,240,76,.12);
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* ─── CONTACT ──────────────────────────────────────────── */
+    #contact { background: var(--surface); }
+
+    .contact-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+    }
+    .contact-big {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700; letter-spacing: -.02em;
+      line-height: 1.1;
+    }
+    .contact-big em { color: var(--accent); font-style: italic; }
+
+    .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 1.5rem;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: .8rem;
+      transition: border-color .25s, transform .25s;
+    }
+    .contact-item:hover { border-color: var(--accent); transform: translateX(5px); }
+    .ci-platform { font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+    .ci-handle { font-weight: 500; font-size: .95rem; }
+    .ci-arrow { color: var(--accent); font-size: 1.1rem; }
+
+    /* ─── FOOTER ───────────────────────────────────────────── */
+    footer {
+      padding: 2.5rem 6%;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: .85rem; color: var(--muted);
+    }
+    footer a { color: var(--accent); }
+
+    /* ─── CHATBOT ──────────────────────────────────────────── */
+    .chat-fab {
+      position: fixed; bottom: 2rem; right: 2rem;
+      width: 58px; height: 58px;
+      background: var(--accent);
+      border-radius: 50%;
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 30px rgba(200,240,76,.35);
+      z-index: 1000;
+      transition: transform .3s, box-shadow .3s;
+      font-size: 1.5rem;
+    }
+    .chat-fab:hover {
+      transform: scale(1.1);
+      box-shadow: 0 12px 40px rgba(200,240,76,.5);
+    }
+    .chat-fab .badge {
+      position: absolute; top: -4px; right: -4px;
+      background: var(--accent2);
+      color: white; font-size: .65rem; font-weight: 700;
+      width: 20px; height: 20px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      animation: ping 2s infinite;
+    }
+
+    @keyframes ping {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50%       { transform: scale(1.3); opacity: .7; }
+    }
+
+    .chat-window {
+      position: fixed; bottom: 7rem; right: 2rem;
+      width: 380px; height: 540px;
+      background: #111;
+      border: 1px solid var(--border);
+      border-radius: 1.2rem;
+      display: flex; flex-direction: column;
+      overflow: hidden;
+      z-index: 1000;
+      box-shadow: 0 30px 80px rgba(0,0,0,.6);
+      transform: scale(.9) translateY(20px);
+      opacity: 0; pointer-events: none;
+      transition: transform .3s cubic-bezier(.34,1.56,.64,1), opacity .3s;
+    }
+    .chat-window.open {
+      transform: scale(1) translateY(0);
+      opacity: 1; pointer-events: all;
+    }
+
+    .chat-header {
+      padding: 1rem 1.2rem;
+      background: #151515;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: .8rem;
+    }
+    .chat-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; color: var(--bg); font-size: .9rem;
+      flex-shrink: 0;
+    }
+    .chat-hinfo { flex: 1; }
+    .chat-hname { font-weight: 600; font-size: .95rem; }
+    .chat-hstatus {
+      font-size: .75rem; color: var(--accent);
+      display: flex; align-items: center; gap: .3rem;
+    }
+    .chat-hstatus::before {
+      content: ''; width: 6px; height: 6px;
+      border-radius: 50%; background: var(--accent);
+      animation: blink 1.4s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .chat-close {
+      background: none; border: none;
+      color: var(--muted); font-size: 1.2rem; cursor: pointer;
+      transition: color .2s;
+    }
+    .chat-close:hover { color: var(--text); }
+
+    /* Quick chips */
+    .chat-chips {
+      padding: .8rem 1rem .4rem;
+      display: flex; gap: .5rem; flex-wrap: wrap;
+      border-bottom: 1px solid var(--border);
+      background: #111;
+    }
+    .chip {
+      padding: .35rem .85rem;
+      border: 1px solid var(--border);
+      border-radius: 2rem; font-size: .78rem;
+      cursor: pointer; transition: all .2s;
+      background: transparent; color: var(--muted);
+    }
+    .chip:hover { border-color: var(--accent); color: var(--accent); }
+
+    .chat-messages {
+      flex: 1; overflow-y: auto;
+      padding: 1rem;
+      display: flex; flex-direction: column; gap: .75rem;
+      scroll-behavior: smooth;
+    }
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-track { background: transparent; }
+    .chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .msg {
+      max-width: 85%;
+      padding: .75rem 1rem;
+      border-radius: 1rem;
+      font-size: .9rem; line-height: 1.6;
+      animation: msgIn .25s ease;
+    }
+    @keyframes msgIn {
+      from { opacity:0; transform:translateY(8px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .msg-bot {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-bottom-left-radius: .25rem;
+      align-self: flex-start;
+    }
+    .msg-user {
+      background: var(--accent);
+      color: var(--bg);
+      font-weight: 500;
+      border-bottom-right-radius: .25rem;
+      align-self: flex-end;
+    }
+
+    /* action buttons inside bot messages */
+    .msg-actions { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .6rem; }
+    .msg-action-btn {
+      padding: .4rem .9rem;
+      background: var(--accent);
+      color: var(--bg);
+      font-size: .8rem; font-weight: 600;
+      border-radius: .4rem; border: none;
+      cursor: pointer; transition: opacity .2s;
+    }
+    .msg-action-btn:hover { opacity: .8; }
+    .msg-action-btn.ghost {
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+    }
+
+    /* typing indicator */
+    .typing {
+      display: flex; gap: 4px; align-items: center;
+      padding: .75rem 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      border-bottom-left-radius: .25rem;
+      align-self: flex-start;
+      animation: msgIn .25s ease;
+    }
+    .typing span {
+      width: 6px; height: 6px; background: var(--muted);
+      border-radius: 50%; animation: bounce 1.2s infinite;
+    }
+    .typing span:nth-child(2) { animation-delay: .2s; }
+    .typing span:nth-child(3) { animation-delay: .4s; }
+    @keyframes bounce {
+      0%,60%,100% { transform:translateY(0); }
+      30%          { transform:translateY(-6px); }
+    }
+
+    .chat-input-area {
+      padding: .8rem 1rem;
+      border-top: 1px solid var(--border);
+      display: flex; gap: .6rem;
+      background: #151515;
+    }
+    .chat-input {
+      flex: 1;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: .6rem;
+      padding: .65rem .9rem;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: .9rem;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .chat-input:focus { border-color: var(--accent); }
+    .chat-send {
+      width: 40px; height: 40px;
+      background: var(--accent);
+      border: none; border-radius: .6rem;
+      cursor: pointer; display: flex;
+      align-items: center; justify-content: center;
+      font-size: 1rem;
+      transition: opacity .2s;
+      flex-shrink: 0;
+    }
+    .chat-send:disabled { opacity: .4; cursor: not-allowed; }
+    .chat-send:not(:disabled):hover { opacity: .8; }
+
+    /* ─── RESPONSIVE ───────────────────────────────────────── */
+    @media (max-width: 900px) {
+      #home           { grid-template-columns: 1fr; padding-top: 8rem; }
+      .hero-card      { display: none; }
+      .proj-grid,
+      .skills-layout,
+      .contact-inner  { grid-template-columns: 1fr; }
+      .nav-links li:not(:last-child) { display: none; }
+      .chat-window    { width: calc(100vw - 2rem); right: 1rem; }
+      #home::after    { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ─────────────────────────────────────────────────── -->
+<nav id="mainNav">
+  <a href="#home" class="nav-logo">Pradyuman<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contact" class="nav-cta">Hire me</a></li>
+  </ul>
+</nav>
+
+<!-- ─── HERO ─────────────────────────────────────────────────── -->
+<section id="home">
+  <div class="hero-left">
+    <div class="hero-label">Available for work</div>
+    <h1 class="hero-title">
+      Building the <em>web,</em><br/>one interface at a time.
+    </h1>
+    <p class="hero-bio">
+      I'm Pradyuman — a frontend developer who cares about clean code, smooth UX, and interfaces that actually feel good to use.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-filled">View my work ↓</a>
+      <button class="btn-ghost" id="openChat">Chat with me →</button>
+    </div>
+  </div>
+
+  <div class="hero-card">
+    <p class="card-greeting">Hey, I'm <span>Pradyuman</span> 👋</p>
+    <div class="card-stats">
+      <div class="stat">
+        <div class="stat-num">2+</div>
+        <div class="stat-label">Projects shipped</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">40%</div>
+        <div class="stat-label">DOM update reduction</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">50%</div>
+        <div class="stat-label">Fewer input errors</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">30%</div>
+        <div class="stat-label">UX latency improved</div>
+      </div>
+    </div>
+    <div class="card-stack">
+      <span class="stack-pill">HTML</span>
+      <span class="stack-pill">CSS</span>
+      <span class="stack-pill">JavaScript</span>
+      <span class="stack-pill">React</span>
+      <span class="stack-pill">Firebase</span>
+      <span class="stack-pill">Git</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROJECTS ──────────────────────────────────────────────── -->
+<section id="projects">
+  <div class="sec-label">Selected work</div>
+  <h2 class="sec-title">What I've built</h2>
+  <p class="sec-sub">A couple of projects that show how I think and build.</p>
+
+  <div class="proj-grid">
+
+    <div class="proj-card">
+      <div class="proj-num">01</div>
+      <h3 class="proj-name">Harmoniq</h3>
+      <p class="proj-desc">A fully responsive music player with playlist browsing, real-time progress tracking, and smooth audio controls built entirely in React.</p>
+      <div class="proj-tags">
+        <span class="proj-tag">HTML</span>
+        <span class="proj-tag">CSS</span>
+        <span class="proj-tag">JavaScript</span>
+        <span class="proj-tag">ReactJS</span>
+      </div>
+      <div class="proj-metrics">
+        <span class="metric">30% less UI latency</span>
+        <span class="metric">40% fewer DOM updates</span>
+      </div>
+      <a href="https://github.com/pradyumansiyal" target="_blank" class="proj-link">View code →</a>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-num">02</div>
+      <h3 class="proj-name">Finance Tracker</h3>
+      <p class="proj-desc">A client-side finance app for tracking income and expenses, with real-time summaries, localStorage persistence, and solid input validation.</p>
+      <div class="proj-tags">
+        <span class="proj-tag">HTML</span>
+        <span class="proj-tag">CSS</span>
+        <span class="proj-tag">JavaScript</span>
+        <span class="proj-tag">Firebase</span>
+      </div>
+      <div class="proj-metrics">
+        <span class="metric">50% invalid entries reduced</span>
+        <span class="metric">Persistent storage</span>
+      </div>
+      <a href="https://github.com/pradyumansiyal" target="_blank" class="proj-link">View code →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── SKILLS ────────────────────────────────────────────────── -->
+<section id="skills">
+  <div class="sec-label">Capabilities</div>
+  <h2 class="sec-title">My skill set</h2>
+  <p class="sec-sub">Things I know, tools I use, concepts I actually understand.</p>
+
+  <div class="skills-layout">
+    <div class="skill-card">
+      <div class="skill-card-title">Languages</div>
+      <div class="skill-pills">
+        <span class="pill">Python</span>
+        <span class="pill">Java</span>
+        <span class="pill">C++</span>
+        <span class="pill">JavaScript</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-title">Frontend</div>
+      <div class="skill-pills">
+        <span class="pill">HTML</span>
+        <span class="pill">CSS</span>
+        <span class="pill">JavaScript</span>
+        <span class="pill">ReactJS</span>
+        <span class="pill">Responsive Design</span>
+        <span class="pill">DOM Manipulation</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-title">Core CS & Tools</div>
+      <div class="skill-pills">
+        <span class="pill">DSA</span>
+        <span class="pill">OOP</span>
+        <span class="pill">MySQL</span>
+        <span class="pill">Git</span>
+        <span class="pill">GitHub</span>
+        <span class="pill">VS Code</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-title">AI & Emerging Tech</div>
+      <div class="skill-pills">
+        <span class="pill">Model Inference</span>
+        <span class="pill">LLM Usage</span>
+        <span class="pill">Prompt Engineering</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTACT ───────────────────────────────────────────────── -->
+<section id="contact">
+  <div class="sec-label">Get in touch</div>
+  <div class="contact-inner">
+    <div>
+      <h2 class="contact-big">Let's build<br/><em>something</em><br/>together.</h2>
+      <p style="color:var(--muted);margin-top:1.2rem;max-width:380px;">
+        Open to frontend roles, freelance projects, and interesting collaborations. Reply within 24 hours.
+      </p>
+    </div>
+    <div class="contact-links">
+      <a href="mailto:pradyumansiyal01@gmail.com" class="contact-item">
+        <div>
+          <div class="ci-platform">Email</div>
+          <div class="ci-handle">pradyumansiyal01@gmail.com</div>
+        </div>
+        <span class="ci-arrow">→</span>
+      </a>
+      <a href="https://linkedin.com/in/pradyumansiyal" target="_blank" class="contact-item">
+        <div>
+          <div class="ci-platform">LinkedIn</div>
+          <div class="ci-handle">pradyumansiyal</div>
+        </div>
+        <span class="ci-arrow">→</span>
+      </a>
+      <a href="https://github.com/pradyumansiyal" target="_blank" class="contact-item">
+        <div>
+          <div class="ci-platform">GitHub</div>
+          <div class="ci-handle">pradyumansiyal</div>
+        </div>
+        <span class="ci-arrow">→</span>
+      </a>
+      <a href="https://leetcode.com/u/pradyumansiyal" target="_blank" class="contact-item">
+        <div>
+          <div class="ci-platform">LeetCode</div>
+          <div class="ci-handle">pradyumansiyal</div>
+        </div>
+        <span class="ci-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ───────────────────────────────────────────────── -->
+<footer>
+  <span>© 2025 Pradyuman Siyal</span>
+  <span>Built with <a href="#">HTML · CSS · JS</a></span>
+</footer>
+
+<!-- ─── CHATBOT FAB ───────────────────────────────────────────── -->
+<button class="chat-fab" id="chatFab" title="Ask me anything">
+  💬
+  <span class="badge">1</span>
+</button>
+
+<!-- ─── CHAT WINDOW ──────────────────────────────────────────── -->
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="chat-avatar">PS</div>
+    <div class="chat-hinfo">
+      <div class="chat-hname">Pradyuman's Assistant</div>
+      <div class="chat-hstatus">Online — ask me anything</div>
+    </div>
+    <button class="chat-close" id="chatClose">✕</button>
+  </div>
+
+  <div class="chat-chips" id="chatChips">
+    <button class="chip" data-q="What projects has Pradyuman built?">Projects</button>
+    <button class="chip" data-q="What are Pradyuman's skills?">Skills</button>
+    <button class="chip" data-q="Is Pradyuman available for hire?">Hire?</button>
+    <button class="chip" data-q="Can I get Pradyuman's resume?">Resume</button>
+    <button class="chip" data-q="How can I contact Pradyuman?">Contact</button>
+  </div>
+
+  <div class="chat-messages" id="chatMessages"></div>
+
+  <div class="chat-input-area">
+    <input class="chat-input" id="chatInput" placeholder="Ask me anything about Pradyuman…" autocomplete="off" />
+    <button class="chat-send" id="chatSend">➤</button>
+  </div>
+</div>
+
+<!-- ─── SCRIPTS ──────────────────────────────────────────────── -->
+<script>
+  /* ── Nav scroll ── */
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  /* ── Chat toggle ── */
+  const fab        = document.getElementById('chatFab');
+  const chatWindow = document.getElementById('chatWindow');
+  const chatClose  = document.getElementById('chatClose');
+  const openChatBtn= document.getElementById('openChat');
+
+  function openChat() {
+    chatWindow.classList.add('open');
+    fab.querySelector('.badge').style.display = 'none';
+    if (!chatWindow.dataset.greeted) {
+      chatWindow.dataset.greeted = '1';
+      setTimeout(() => {
+        addBotMessage(
+          "Hey! 👋 I'm Pradyuman's AI assistant. I know everything about his skills, projects, and experience.\n\nWhat would you like to know?",
+          []
+        );
+      }, 400);
+    }
+  }
+  fab.addEventListener('click', () => chatWindow.classList.contains('open') ? chatWindow.classList.remove('open') : openChat());
+  chatClose.addEventListener('click', () => chatWindow.classList.remove('open'));
+  openChatBtn.addEventListener('click', openChat);
+
+  /* ── Quick chips ── */
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      sendMessage(chip.dataset.q);
+    });
+  });
+
+  /* ── Messaging ── */
+  const msgs   = document.getElementById('chatMessages');
+  const input  = document.getElementById('chatInput');
+  const sendBtn= document.getElementById('chatSend');
+  let   isBusy = false;
+
+  function addBotMessage(text, actions = []) {
+    const div = document.createElement('div');
+    div.className = 'msg msg-bot';
+
+    // linkify contact info
+    const linkified = text
+      .replace(/pradyumansiyal01@gmail\.com/g, '<a href="mailto:pradyumansiyal01@gmail.com" style="color:var(--accent)">pradyumansiyal01@gmail.com</a>')
+      .replace(/linkedin\.com\/in\/pradyumansiyal/g, '<a href="https://linkedin.com/in/pradyumansiyal" target="_blank" style="color:var(--accent)">linkedin.com/in/pradyumansiyal</a>')
+      .replace(/github\.com\/pradyumansiyal/g, '<a href="https://github.com/pradyumansiyal" target="_blank" style="color:var(--accent)">github.com/pradyumansiyal</a>')
+      .replace(/leetcode\.com\/u\/pradyumansiyal/g, '<a href="https://leetcode.com/u/pradyumansiyal" target="_blank" style="color:var(--accent)">leetcode.com/u/pradyumansiyal</a>');
+
+    div.innerHTML = linkified.replace(/\n/g, '<br/>');
+
+    if (actions.length) {
+      const row = document.createElement('div');
+      row.className = 'msg-actions';
+      actions.forEach(a => {
+        const btn = document.createElement('button');
+        btn.className = 'msg-action-btn' + (a.ghost ? ' ghost' : '');
+        btn.textContent = a.label;
+        btn.onclick = () => sendMessage(a.prompt || a.label);
+        row.appendChild(btn);
+      });
+      div.appendChild(row);
+    }
+
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function addUserMessage(text) {
+    const div = document.createElement('div');
+    div.className = 'msg msg-user';
+    div.textContent = text;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function showTyping() {
+    const t = document.createElement('div');
+    t.className = 'typing'; t.id = 'typingIndicator';
+    t.innerHTML = '<span></span><span></span><span></span>';
+    msgs.appendChild(t);
+    msgs.scrollTop = msgs.scrollHeight;
+    return t;
+  }
+
+  function removeTyping() {
+    const t = document.getElementById('typingIndicator');
+    if (t) t.remove();
+  }
+
+  /* ── AI Call ── */
+  const SYSTEM_PROMPT = `You are a helpful, friendly assistant embedded on Pradyuman Siyal's personal portfolio website. Your job is to answer any questions a recruiter, collaborator, or visitor might have about Pradyuman.
+
+Here is everything you know about him:
+
+NAME: Pradyuman Siyal
+ROLE: Frontend Developer
+EMAIL: pradyumansiyal01@gmail.com
+LINKEDIN: https://linkedin.com/in/pradyumansiyal
+GITHUB: https://github.com/pradyumansiyal
+LEETCODE: https://leetcode.com/u/pradyumansiyal
+TAGLINE: Crafting intuitive, responsive web interfaces with modern frontend tools.
+STATUS: Available for work / open to frontend roles and freelance projects.
+
+PROJECTS:
+1. Harmoniq — Web-Based Music Player
+   - Tech: HTML, CSS, JavaScript, ReactJS
+   - Built a responsive music player with playlist browsing and audio controls
+   - Play/pause, next/prev, seek bar, volume control via JS event listeners
+   - State management for track, playback, and progress
+   - Dynamically rendered playlists from JS objects — 40% fewer DOM updates
+   - Smooth transitions — 30% reduced perceived interaction latency
+   - GitHub: https://github.com/pradyumansiyal
+
+2. Personal Finance Tracker
+   - Tech: HTML, CSS, JavaScript, Firebase
+   - Records, categorizes, and manages income and expenses
+   - Dynamic form validation — 50% reduction in invalid entries
+   - Real-time balance and spending summaries using JS data structures
+   - localStorage for session persistence
+   - Optimized DOM updates for large datasets
+   - GitHub: https://github.com/pradyumansiyal
+
+SKILLS:
+- Programming: Python, Java, C++, JavaScript
+- CS Core: Data Structures & Algorithms, OOP, Recursion, Time/Space Complexity
+- Frontend: HTML, CSS, JavaScript, ReactJS, Responsive Design, DOM Manipulation, Event-Driven Programming
+- Databases: MySQL (CRUD, joins, query optimization)
+- Tools: Git, GitHub, VS Code
+- AI/GenAI: Model Inference, Prompt-based LLM usage
+
+RESUME: Pradyuman's resume is available on request. When someone asks for the resume, tell them they can reach out via email at pradyumansiyal01@gmail.com and he will respond within 24 hours with his latest resume. Also give them his LinkedIn link as an alternative.
+
+PERSONALITY NOTES:
+- Respond in a friendly, concise, conversational tone
+- Keep answers short unless depth is needed
+- When asked about contact or resume, always provide all relevant links clearly
+- If someone seems like a recruiter, offer to share contact details proactively
+- Use line breaks for readability
+- Never make up skills or projects he doesn't have
+- If asked something you don't know, say so and redirect to his email`;
+
+  async function callAI(userMessage, history) {
+    const messages = history.map(m => ({ role: m.role, content: m.content }));
+    messages.push({ role: 'user', content: userMessage });
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM_PROMPT,
+        messages
+      })
+    });
+    const data = await response.json();
+    return data.content?.[0]?.text || 'Sorry, something went wrong. Please try again.';
+  }
+
+  /* ── Send message ── */
+  const chatHistory = [];
+
+  async function sendMessage(text) {
+    if (isBusy || !text.trim()) return;
+    isBusy = true;
+    sendBtn.disabled = true;
+    input.value = '';
+
+    // hide chips after first use
+    document.getElementById('chatChips').style.display = 'none';
+
+    addUserMessage(text);
+    const typing = showTyping();
+
+    try {
+      const reply = await callAI(text, chatHistory);
+      removeTyping();
+
+      chatHistory.push({ role: 'user', content: text });
+      chatHistory.push({ role: 'assistant', content: reply });
+
+      // detect if reply involves contact/resume — add action buttons
+      const lowerReply  = reply.toLowerCase();
+      const lowerInput  = text.toLowerCase();
+      const isContact   = lowerReply.includes('email') || lowerReply.includes('linkedin') || lowerInput.includes('contact') || lowerInput.includes('resume') || lowerInput.includes('hire');
+
+      const actions = isContact ? [
+        { label: '✉ Email Pradyuman', prompt: null, ghost: false, href: 'mailto:pradyumansiyal01@gmail.com' },
+        { label: '🔗 LinkedIn',        prompt: null, ghost: true,  href: 'https://linkedin.com/in/pradyumansiyal' },
+      ] : [];
+
+      addBotMessage(reply, []);
+
+      // if contact-related, append inline action links
+      if (isContact) {
+        const div = document.createElement('div');
+        div.className = 'msg msg-bot';
+        div.innerHTML = '<div class="msg-actions">' +
+          '<a href="mailto:pradyumansiyal01@gmail.com" class="msg-action-btn" style="display:inline-flex;align-items:center;gap:.3rem;text-decoration:none;">✉ Email him</a>' +
+          '<a href="https://linkedin.com/in/pradyumansiyal" target="_blank" class="msg-action-btn ghost" style="display:inline-flex;align-items:center;gap:.3rem;text-decoration:none;">🔗 LinkedIn</a>' +
+          '<a href="https://github.com/pradyumansiyal" target="_blank" class="msg-action-btn ghost" style="display:inline-flex;align-items:center;gap:.3rem;text-decoration:none;">GitHub</a>' +
+          '</div>';
+        msgs.appendChild(div);
+        msgs.scrollTop = msgs.scrollHeight;
+      }
+
+    } catch (e) {
+      removeTyping();
+      addBotMessage('Hmm, I ran into an issue connecting. Please reach out directly at pradyumansiyal01@gmail.com 🙏');
+    }
+
+    isBusy = false;
+    sendBtn.disabled = false;
+    input.focus();
+  }
+
+  sendBtn.addEventListener('click', () => sendMessage(input.value.trim()));
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(input.value.trim()); }
+  });
+
+  /* ── Scroll animations ── */
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.proj-card, .skill-card, .contact-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity .6s ease, transform .6s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
