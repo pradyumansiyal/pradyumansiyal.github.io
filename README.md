@@ -66,14 +66,21 @@ It also includes an **interactive AI chatbot** that answers common questions abo
 
 ---
 
-## 📂 Project Structure
-├── index.html # Main website structure
-├── style.css # Styling and layout
-├── script.js # Interactivity and chatbot logic
-├── logo.png # Personal logo
-├── resume.pdf # Resume (optional download)
-├── CNAME # Custom domain configuration
-└── README.md # Project documentation
+📁 Project Structure
+├── index.html        # Main website structure
+├── style.css         # Styling and layout
+├── script.js         # Interactivity and chatbot logic
+├── logo.png          # Personal logo
+├── resume.pdf        # Resume (PDF)
+├── CNAME             # Custom domain configuration
+├── README.md         # Project documentation
+└── screenshots/      # Website screenshots
+    ├── homepage.png
+    ├── projects.png
+    ├── contactinfo.png
+    ├── skills.png
+    └── chatbot.png
+
 
 ## Screenshots
 
