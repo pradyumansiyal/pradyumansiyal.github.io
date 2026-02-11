@@ -146,22 +146,34 @@ PERSONALITY NOTES:
 - If asked something you don't know, say so and redirect to his email`;
 
   async function callAI(userMessage, history) {
-    const messages = history.map(m => ({ role: m.role, content: m.content }));
-    messages.push({ role: 'user', content: userMessage });
+  const messages = [
+    { role: "system", content: SYSTEM_PROMPT },
+    ...history.map(m => ({ role: m.role, content: m.content })),
+    { role: "user", content: userMessage }
+  ];
 
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: SYSTEM_PROMPT,
-        messages
-      })
-    });
-    const data = await response.json();
-    return data.content?.[0]?.text || 'Sorry, something went wrong. Please try again.';
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer YOUR_OPENAI_API_KEY"
+    },
+    body: JSON.stringify({
+      model: "gpt-4o-mini",
+      messages,
+      temperature: 0.6,
+      max_tokens: 600
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error("OpenAI API request failed");
   }
+
+  const data = await response.json();
+  return data.choices[0].message.content;
+}
+
 
   /* ── Send message ── */
   const chatHistory = [];
