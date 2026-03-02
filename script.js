@@ -157,33 +157,36 @@ async function callAI(userMessage, history) {
   if (!OPENAI_API_KEY) {
     return getLocalReply(userMessage);
   }
+  try {
+    const messages = [
+      { role: 'system', content: SYSTEM_PROMPT },
+      ...history.map((m) => ({ role: m.role, content: m.content })),
+      { role: 'user', content: userMessage },
+    ];
 
-  const messages = [
-    { role: 'system', content: SYSTEM_PROMPT },
-    ...history.map((m) => ({ role: m.role, content: m.content })),
-    { role: 'user', content: userMessage },
-  ];
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        messages,
+        temperature: 0.5,
+        max_tokens: 400,
+      }),
+    });
 
-  const response = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${OPENAI_API_KEY}`,
-    },
-    body: JSON.stringify({
-      model: 'gpt-4o-mini',
-      messages,
-      temperature: 0.5,
-      max_tokens: 400,
-    }),
-  });
+    if (!response.ok) {
+      return getLocalReply(userMessage);
+    }
 
-  if (!response.ok) {
+    const data = await response.json();
+    return data?.choices?.[0]?.message?.content || getLocalReply(userMessage);
+  } catch {
     return getLocalReply(userMessage);
   }
-
-  const data = await response.json();
-  return data?.choices?.[0]?.message?.content || getLocalReply(userMessage);
 }
 
 /* ── Send message ── */
@@ -227,9 +230,7 @@ async function sendMessage(text) {
     addBotMessage(reply, actions);
   } catch (e) {
     removeTyping();
-    addBotMessage(
-      "I'm having trouble right now, but I can still help with contact details:\npradyumansiyal01@gmail.com\nlinkedin.com/in/pradyumansiyal"
-    );
+    addBotMessage(getLocalReply(text));
   }
 
   isBusy = false;
